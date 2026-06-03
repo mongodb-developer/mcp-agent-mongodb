@@ -1,0 +1,33 @@
+# Internal build plan & helper artifacts — not shipped with the package/repo
+PLAN.md
+
+# Internal outreach drafts — not part of the public package/repo
+outreach/
+
+# Secrets / local env
+.env
+demo/.env
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python build / packaging artifacts
+build/
+dist/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# Caches & bytecode
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# OS / editor cruft
+.DS_Store
