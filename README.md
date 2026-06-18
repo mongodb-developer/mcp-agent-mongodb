@@ -1,5 +1,7 @@
 # mcp-agent-mongodb
 
+> ⚠️ **ALPHA — NOT AN OFFICIAL MONGODB PRODUCT.** This integration is in **Alpha** and is **not** a supported or official MongoDB product. **Use at your own risk.**
+
 MongoDB Atlas–backed **persistent memory** for [mcp-agent](https://github.com/lastmile-ai/mcp-agent)
 (LastMile AI) — a drop-in replacement for the framework's in-process `SimpleMemory`.
 

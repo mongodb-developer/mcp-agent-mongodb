@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mcp-agent-mongodb"
-version = "0.1.0"
+version = "0.1.1"
 description = "MongoDB Atlas-backed persistent agent memory for mcp-agent (LastMile AI): a drop-in Memory backend with Atlas Vector Search recall."
 readme = "README.md"
 requires-python = ">=3.10"
