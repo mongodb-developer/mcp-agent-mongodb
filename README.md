@@ -10,7 +10,7 @@ MongoDB Atlas–backed **persistent memory** for [mcp-agent](https://github.com/
   `llm.history`. Each message is one MongoDB document, scoped by `session_id` and ordered
   by an append `seq`, so an agent's conversation history **survives restarts** and can be
   shared across processes.
-- **Semantic recall** — optional long-term recall over past messages via Atlas Vector
+- **Semantic recall** — optional long-term recall over past messages via MongoDB Vector
   Search (`$vectorSearch`). Embedding source-agnostic: **bring your own query vector**
   (default) or enable **Atlas Automated Embedding** (server-side embeddings, no client code).
 
@@ -19,7 +19,7 @@ MongoDB Atlas–backed **persistent memory** for [mcp-agent](https://github.com/
 | Capability | How |
 |---|---|
 | Persistent agent memory (MS) | `MongoMemory` as a drop-in `llm.history` |
-| Semantic recall (VS) | `recall_semantic()` over Atlas `$vectorSearch`, session-prefiltered |
+| Semantic recall (VS) | `recall_semantic()` over MongoDB `$vectorSearch`, session-prefiltered |
 | Survives restarts / multi-process | history keyed by `session_id`, stored in MongoDB |
 | TTL expiry | optional TTL index on `ts` |
 
@@ -40,7 +40,7 @@ AugmentedLLM.history  ──►  MongoMemory(connection_string, session_id=…)
                           { session_id, seq, role, message, content, embedding?, ts }
                                        │
                        recall_semantic ▼  (optional)
-                          Atlas Vector Search  $vectorSearch (session-prefiltered)
+                          MongoDB Vector Search  $vectorSearch (session-prefiltered)
 ```
 
 ## Install
@@ -80,7 +80,7 @@ async with agent:
 | `database_name` | `mcp_agent` | Database name |
 | `collection_name` | `memory` | Collection name |
 | `message_model` | `None` | Optional pydantic model to rehydrate stored messages on `get()` |
-| `vector_search_index` | `idx_agent_memory` | Atlas Vector Search index name |
+| `vector_search_index` | `idx_agent_memory` | MongoDB Vector Search index name |
 | `auto_embed` | `False` | Enable Atlas Automated Embedding (recall by query text) |
 | `auto_embed_model` | `voyage-4` | Voyage model used by Automated Embedding |
 | `ttl_seconds` | `None` | If set, TTL index on `ts` auto-expires idle conversations |
@@ -99,7 +99,7 @@ async with agent:
 }
 ```
 
-## Semantic recall (Atlas Vector Search)
+## Semantic recall (MongoDB Vector Search)
 
 The package never calls an embedding provider itself — choose one of **two first-class paths**:
 
@@ -136,7 +136,7 @@ agents can call as a tool.
 
 ## Demos
 
-- **`demo/memory_demo.py`** — persistence across two simulated processes + Atlas Vector
+- **`demo/memory_demo.py`** — persistence across two simulated processes + MongoDB Vector
   Search recall (bring-your-own Voyage vectors; `MEMORY_MODE=auto` for Automated Embedding).
 - **`demo/agent_demo.py`** — a real Gemini mcp-agent whose `llm.history` is a `MongoMemory`;
   Session 2 (brand-new app/agent/LLM) answers using history reloaded from Atlas.
@@ -151,7 +151,7 @@ python demo/agent_demo.py                   # Gemini agent, cross-session memory
 
 ## Why MongoDB
 
-One database for agent state: durable conversation history, semantic recall via Atlas
+One database for agent state: durable conversation history, semantic recall via MongoDB
 Vector Search, TTL lifecycle, and flexible documents for arbitrary provider message
 shapes — no separate vector store to operate.
 
@@ -172,7 +172,7 @@ pytest -q          # 17 tests, mongomock — no infra required
 ## Resources
 
 - mcp-agent: https://github.com/lastmile-ai/mcp-agent · docs: https://docs.mcp-agent.com
-- MongoDB Atlas Vector Search: https://www.mongodb.com/docs/atlas/atlas-vector-search/
+- MongoDB MongoDB Vector Search: https://www.mongodb.com/docs/atlas/atlas-vector-search/
 - Voyage AI embeddings: https://docs.voyageai.com
 
 ## License
